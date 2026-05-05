@@ -17,10 +17,17 @@ const interactiveCard = document.getElementById('interactive-card');
 const statusText = document.getElementById('status');
 
 interactiveCard.addEventListener('click', () => {
-    const steps = ["ANALYZING HARDWARE...", "CALCULATING THRESHOLD...", "THREADS ALLOCATED", "OPTIMIZATION READY"];
+    // UPDATE THIS ARRAY HERE:
+    const steps = [
+        "SPAWNING N THREADS...",       // Workshop 9, Q1
+        "GENERATING 500 RANDOM #S...",  // Workshop 9, Q1
+        "EXECUTING PTHREAD_EXIT()...",  // Workshop 9, Q1[cite: 1]
+        "PTHREAD_JOIN SUCCESS!"         // Workshop 9, Q1[cite: 1]
+    ];
+    
     let i = 0;
     
-    // Disable clicking while "processing"
+    // This part stays the same...
     interactiveCard.style.pointerEvents = "none";
     
     const interval = setInterval(() => {
@@ -30,13 +37,13 @@ interactiveCard.addEventListener('click', () => {
         
         if (i >= steps.length) {
             clearInterval(interval);
-            statusText.innerText = "SUCCESS: 1000 ELEMENTS";
+            // Change this final message to match the assignment result
+            statusText.innerText = "MAX VALUE FOUND!"; 
             statusText.style.color = "#00ff00";
             interactiveCard.style.pointerEvents = "all";
         }
     }, 600);
 });
-
 // --- BACKGROUND ANIMATION ---
 class Particle {
     constructor(x, y, dirX, dirY, size) {
