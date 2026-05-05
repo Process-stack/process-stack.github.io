@@ -12,7 +12,7 @@ window.addEventListener('mousemove', (e) => {
     cursor.style.top = e.clientY + 'px';
 });
 
-// --- NEW FUNCTIONAL AI LOGIC (Replaces Old Simulation) ---
+// --- UPDATED AI SOLVER LOGIC ---
 const fileInput = document.getElementById('file-upload');
 const statusText = document.getElementById('status');
 const interactiveCard = document.getElementById('interactive-card');
@@ -22,8 +22,7 @@ if (fileInput) {
         const file = e.target.files[0];
         if (!file) return;
 
-        // Feedback that the scan is starting
-        statusText.innerText = "INITIALIZING NEURAL SCAN...";
+        statusText.innerText = "NEURAL ANALYSIS IN PROGRESS...";
         statusText.style.color = "cyan";
         interactiveCard.style.borderColor = "cyan";
 
@@ -32,36 +31,43 @@ if (fileInput) {
         reader.onload = function(event) {
             const content = event.target.result.toLowerCase();
             
-            // Simulated delay to show the "Scan" animation
+            // Simulation delay to "solve" the problem
             setTimeout(() => {
-                // Check for Workshop 9 requirements
-                if (content.includes("pthread") || content.includes("thread")) {
+                // SOLUTION FOR QUESTION 1: Random Max Finder
+                if (content.includes("question 1") || content.includes("random")) {
                     statusText.innerHTML = `
-                        <span style="color: #00ff00; font-weight: bold;">✔ THREAD LOGIC DETECTED</span><br>
-                        <small>Requirement: Spawn n threads</small><br>
-                        <small>Function: pthread_exit & join</small>
+                        <span style="color: #00ff00; font-weight: bold;">✔ Q1 SOLVED: MULTITHREADED MAX</span><br>
+                        <div style="text-align: left; font-size: 0.7rem; background: rgba(0,0,0,0.5); padding: 5px; border-radius: 4px; margin-top: 5px;">
+                            <strong>LOGIC:</strong> Spawn <em>n</em> threads using <code>pthread_create</code>.<br>
+                            <strong>TASK:</strong> Each thread generates 500 numbers via <code>rand_r()</code>.<br>
+                            <strong>EXIT:</strong> Return max value using <code>pthread_exit()</code>.
+                        </div>
                     `;
-                    interactiveCard.style.borderColor = "#00ff00";
-                } else if (content.includes("prime") || content.includes("slicing")) {
+                } 
+                // SOLUTION FOR QUESTION 3: Prime Slicing
+                else if (content.includes("question 3") || content.includes("prime") || content.includes("500,000,000")) {
                     statusText.innerHTML = `
-                        <span style="color: #00ff00; font-weight: bold;">✔ ALGORITHM DETECTED</span><br>
-                        <small>Task: Prime Slicing</small><br>
-                        <small>Range: 1 to 500M</small>
+                        <span style="color: #00ff00; font-weight: bold;">✔ Q3 SOLVED: PRIME SLICING</span><br>
+                        <div style="text-align: left; font-size: 0.7rem; background: rgba(0,0,0,0.5); padding: 5px; border-radius: 4px; margin-top: 5px;">
+                            <strong>LOGIC:</strong> Divide range (1-500M) by <code>n</code> threads.<br>
+                            <strong>TASK:</strong> Each thread checks a "slice" of the total range.<br>
+                            <strong>JOIN:</strong> Main thread aggregates all prime counts.
+                        </div>
                     `;
-                    interactiveCard.style.borderColor = "#00ff00";
-                } else {
-                    statusText.innerText = "SCAN COMPLETE: No multithreading patterns found.";
+                } 
+                else {
+                    statusText.innerText = "SCAN COMPLETE: Assignment patterns found, but no specific Workshop 9 question detected.";
                     statusText.style.color = "yellow";
-                    interactiveCard.style.borderColor = "yellow";
                 }
-            }, 1500);
+                interactiveCard.style.borderColor = "#00ff00";
+            }, 2000);
         };
 
-        reader.readAsText(file); // Reads file content for keyword detection
+        reader.readAsText(file); // Reads file to identify the question
     });
 }
 
-// --- BACKGROUND ANIMATION (Preserved) ---
+// --- BACKGROUND ANIMATION ---
 class Particle {
     constructor(x, y, dirX, dirY, size) {
         this.x = x;
