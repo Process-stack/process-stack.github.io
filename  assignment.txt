@@ -1,0 +1,4 @@
+Create a program which spawns n number of threads to split a task across many
+threads. Use the slicing algorithm shown within the lecture. The task is to find all
+prime numbers between a range. Use argv[1] for the threads and the range specified
+by argv[2] and argv[3]. Try between 1 and 500,000,000.
