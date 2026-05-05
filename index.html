@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Process Shrestha | AI Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Live Running Background -->
+    <canvas id="canvas-bg"></canvas>
+    
+    <!-- Custom AI Cursor -->
+    <div class="cursor"></div>
+
+    <nav>
+        <div class="logo">PROCESS_SHRESTHA</div>
+        <div class="links">
+            <a href="#work">WORK</a>
+            <a href="mailto:your-email@example.com">CONTACT</a>
+        </div>
+    </nav>
+
+    <main class="container">
+        <section class="hero">
+            <h1 class="reveal">BUILDING AI<br>FROM AI.</h1>
+            <p class="subtitle">COMPUTER SCIENCE STUDENT // NEPAL</p>
+        </section>
+
+        <section id="work" class="grid">
+            <!-- Project Card -->
+            <div class="card wide">
+                <span class="label">01 / FEATURED PROJECT</span>
+                <h2>PARALLEL MERGE SORT</h2>
+                <p>A C-based concurrent algorithm. Optimized using Gemini 3 Flash to mathematically balance <code>pthreads</code> overhead vs. processing speed.</p>
+                <div class="meta">
+                    <span>EXECUTION: 0.026s</span>
+                    <span>HARDWARE: 2-CORE VM</span>
+                </div>
+            </div>
+
+            <!-- Interactive Simulation Card -->
+            <div class="card small" id="interactive-card">
+                <span class="label">02 / INTERACTIVE</span>
+                <h2>SIMULATE</h2>
+                <p>Click to trigger AI logic.</p>
+                <div id="status">IDLE</div>
+            </div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
