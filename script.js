@@ -1,10 +1,43 @@
 const canvas = document.getElementById('canvas-bg');
 const ctx = canvas.getContext('2d');
+const cursor = document.querySelector('.cursor');
 let particlesArray;
 
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
+// --- CURSOR MOVEMENT ---
+window.addEventListener('mousemove', (e) => {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top = e.clientY + 'px';
+});
+
+// --- AI SIMULATION LOGIC ---
+const interactiveCard = document.getElementById('interactive-card');
+const statusText = document.getElementById('status');
+
+interactiveCard.addEventListener('click', () => {
+    const steps = ["ANALYZING HARDWARE...", "CALCULATING THRESHOLD...", "THREADS ALLOCATED", "OPTIMIZATION READY"];
+    let i = 0;
+    
+    // Disable clicking while "processing"
+    interactiveCard.style.pointerEvents = "none";
+    
+    const interval = setInterval(() => {
+        statusText.innerText = steps[i];
+        statusText.style.color = `hsla(${Math.random() * 360}, 100%, 50%, 1)`;
+        i++;
+        
+        if (i >= steps.length) {
+            clearInterval(interval);
+            statusText.innerText = "SUCCESS: 1000 ELEMENTS";
+            statusText.style.color = "#00ff00";
+            interactiveCard.style.pointerEvents = "all";
+        }
+    }, 600);
+});
+
+// --- BACKGROUND ANIMATION ---
 class Particle {
     constructor(x, y, dirX, dirY, size) {
         this.x = x;
@@ -12,7 +45,7 @@ class Particle {
         this.dirX = dirX;
         this.dirY = dirY;
         this.size = size;
-        this.hue = Math.random() * 360; // Random starting color
+        this.hue = Math.random() * 360;
     }
     draw() {
         ctx.beginPath();
@@ -25,41 +58,34 @@ class Particle {
         if (this.y > canvas.height || this.y < 0) this.dirY = -this.dirY;
         this.x += this.dirX;
         this.y += this.dirY;
-        
-        // Cycle the color slowly
-        this.hue += 0.5; 
-        if (this.hue > 360) this.hue = 0;
-        
+        this.hue += 0.5;
         this.draw();
     }
 }
 
-function initBackground() {
+function init() {
     particlesArray = [];
-    let count = (canvas.width * canvas.height) / 12000;
+    let count = (canvas.width * canvas.height) / 15000;
     for (let i = 0; i < count; i++) {
         let size = Math.random() * 2 + 1;
         let x = Math.random() * canvas.width;
         let y = Math.random() * canvas.height;
-        let dx = (Math.random() * 0.6) - 0.3;
-        let dy = (Math.random() * 0.6) - 0.3;
+        let dx = (Math.random() * 0.5) - 0.25;
+        let dy = (Math.random() * 0.5) - 0.25;
         particlesArray.push(new Particle(x, y, dx, dy, size));
     }
 }
 
 function animate() {
-    // Semi-transparent clear creates a "trail" effect
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.1)'; 
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-
+    
     particlesArray.forEach(p => {
         p.update();
         particlesArray.forEach(p2 => {
             let dist = ((p.x - p2.x)**2) + ((p.y - p2.y)**2);
-            if (dist < 20000) {
-                // Lines take the color of the particle with a fade
-                ctx.strokeStyle = `hsla(${p.hue}, 100%, 50%, ${1 - dist/20000})`;
-                ctx.lineWidth = 1;
+            if (dist < 15000) {
+                ctx.strokeStyle = `hsla(${p.hue}, 100%, 50%, ${1 - dist/15000})`;
                 ctx.beginPath();
                 ctx.moveTo(p.x, p.y);
                 ctx.lineTo(p2.x, p2.y);
@@ -70,12 +96,11 @@ function animate() {
     requestAnimationFrame(animate);
 }
 
-// Re-initialize on window resize
 window.addEventListener('resize', () => {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
-    initBackground();
+    init();
 });
 
-initBackground();
+init();
 animate();
