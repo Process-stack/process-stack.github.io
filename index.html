@@ -36,12 +36,23 @@
             </div>
 
             <!-- This is the card we are making functional -->
-            <div class="card" id="interactive-card">
-                <span class="num">02 / INTERACTIVE</span>
-                <h3>SIMULATE</h3>
-                <p>Simulate Multithreaded Search: Finding the maximum value across n threads using pthread_exit().</p>
-                <div id="status" class="status-text">IDLE</div>
-            </div>
+         <!-- Usually around line 40-60 depending on your file -->
+<div class="card" id="interactive-card">
+    <span class="num">02 / FUNCTIONAL AI</span>
+    <h3>ASSIGNMENT ANALYZER</h3>
+    <p>Upload your workshop document to detect multithreading requirements.</p>
+    
+    <div class="upload-container" style="margin: 15px 0;">
+        <input type="file" id="file-upload" accept=".txt,.pdf,.docx" style="display: none;">
+        <button onclick="document.getElementById('file-upload').click()" style="padding: 10px; cursor: pointer; background: #fff; color: #000; border: none; font-weight: bold; border-radius: 4px;">
+            CHOOSE FILE
+        </button>
+    </div>
+
+    <div id="status" class="status-text" style="font-family: monospace; font-size: 0.8rem; margin-top: 10px; min-height: 40px;">
+        READY FOR ANALYSIS...
+    </div>
+</div>
         </section>
     </main>
 

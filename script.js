@@ -12,39 +12,56 @@ window.addEventListener('mousemove', (e) => {
     cursor.style.top = e.clientY + 'px';
 });
 
-// --- AI SIMULATION LOGIC ---
-const interactiveCard = document.getElementById('interactive-card');
+// --- NEW FUNCTIONAL AI LOGIC (Replaces Old Simulation) ---
+const fileInput = document.getElementById('file-upload');
 const statusText = document.getElementById('status');
+const interactiveCard = document.getElementById('interactive-card');
 
-interactiveCard.addEventListener('click', () => {
-    // UPDATE THIS ARRAY HERE:
-    const steps = [
-        "SPAWNING N THREADS...",       // Workshop 9, Q1
-        "GENERATING 500 RANDOM #S...",  // Workshop 9, Q1
-        "EXECUTING PTHREAD_EXIT()...",  // Workshop 9, Q1[cite: 1]
-        "PTHREAD_JOIN SUCCESS!"         // Workshop 9, Q1[cite: 1]
-    ];
-    
-    let i = 0;
-    
-    // This part stays the same...
-    interactiveCard.style.pointerEvents = "none";
-    
-    const interval = setInterval(() => {
-        statusText.innerText = steps[i];
-        statusText.style.color = `hsla(${Math.random() * 360}, 100%, 50%, 1)`;
-        i++;
-        
-        if (i >= steps.length) {
-            clearInterval(interval);
-            // Change this final message to match the assignment result
-            statusText.innerText = "MAX VALUE FOUND!"; 
-            statusText.style.color = "#00ff00";
-            interactiveCard.style.pointerEvents = "all";
-        }
-    }, 600);
-});
-// --- BACKGROUND ANIMATION ---
+if (fileInput) {
+    fileInput.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        // Feedback that the scan is starting
+        statusText.innerText = "INITIALIZING NEURAL SCAN...";
+        statusText.style.color = "cyan";
+        interactiveCard.style.borderColor = "cyan";
+
+        const reader = new FileReader();
+
+        reader.onload = function(event) {
+            const content = event.target.result.toLowerCase();
+            
+            // Simulated delay to show the "Scan" animation
+            setTimeout(() => {
+                // Check for Workshop 9 requirements
+                if (content.includes("pthread") || content.includes("thread")) {
+                    statusText.innerHTML = `
+                        <span style="color: #00ff00; font-weight: bold;">✔ THREAD LOGIC DETECTED</span><br>
+                        <small>Requirement: Spawn n threads</small><br>
+                        <small>Function: pthread_exit & join</small>
+                    `;
+                    interactiveCard.style.borderColor = "#00ff00";
+                } else if (content.includes("prime") || content.includes("slicing")) {
+                    statusText.innerHTML = `
+                        <span style="color: #00ff00; font-weight: bold;">✔ ALGORITHM DETECTED</span><br>
+                        <small>Task: Prime Slicing</small><br>
+                        <small>Range: 1 to 500M</small>
+                    `;
+                    interactiveCard.style.borderColor = "#00ff00";
+                } else {
+                    statusText.innerText = "SCAN COMPLETE: No multithreading patterns found.";
+                    statusText.style.color = "yellow";
+                    interactiveCard.style.borderColor = "yellow";
+                }
+            }, 1500);
+        };
+
+        reader.readAsText(file); // Reads file content for keyword detection
+    });
+}
+
+// --- BACKGROUND ANIMATION (Preserved) ---
 class Particle {
     constructor(x, y, dirX, dirY, size) {
         this.x = x;
