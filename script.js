@@ -12,7 +12,7 @@ window.addEventListener('mousemove', (e) => {
     cursor.style.top = e.clientY + 'px';
 });
 
-// --- UPDATED AI SOLVER LOGIC ---
+// --- UPDATED AI SOLVER LOGIC (BROADER KEYWORDS) ---
 const fileInput = document.getElementById('file-upload');
 const statusText = document.getElementById('status');
 const interactiveCard = document.getElementById('interactive-card');
@@ -31,27 +31,26 @@ if (fileInput) {
         reader.onload = function(event) {
             const content = event.target.result.toLowerCase();
             
-            // Simulation delay to "solve" the problem
             setTimeout(() => {
-                // SOLUTION FOR QUESTION 1: Random Max Finder
-                if (content.includes("question 1") || content.includes("random")) {
+                // IMPROVED DETECTION FOR Q1
+                if (content.includes("question 1") || content.includes("random") || content.includes("max")) {
                     statusText.innerHTML = `
                         <span style="color: #00ff00; font-weight: bold;">✔ Q1 SOLVED: MULTITHREADED MAX</span><br>
-                        <div style="text-align: left; font-size: 0.7rem; background: rgba(0,0,0,0.5); padding: 5px; border-radius: 4px; margin-top: 5px;">
+                        <div style="text-align: left; font-size: 0.7rem; background: rgba(0,0,0,0.5); padding: 8px; border-radius: 4px; margin-top: 5px; line-height: 1.2;">
                             <strong>LOGIC:</strong> Spawn <em>n</em> threads using <code>pthread_create</code>.<br>
-                            <strong>TASK:</strong> Each thread generates 500 numbers via <code>rand_r()</code>.<br>
-                            <strong>EXIT:</strong> Return max value using <code>pthread_exit()</code>.
+                            <strong>TASK:</strong> Generate 500 numbers via <code>rand_r()</code> per thread.<br>
+                            <strong>EXIT:</strong> Return local max value via <code>pthread_exit()</code>.
                         </div>
                     `;
                 } 
-                // SOLUTION FOR QUESTION 3: Prime Slicing
-                else if (content.includes("question 3") || content.includes("prime") || content.includes("500,000,000")) {
+                // IMPROVED DETECTION FOR Q3 (Matches your assignment.txt exactly)
+                else if (content.includes("prime") || content.includes("slicing") || content.includes("split a task") || content.includes("500000000")) {
                     statusText.innerHTML = `
                         <span style="color: #00ff00; font-weight: bold;">✔ Q3 SOLVED: PRIME SLICING</span><br>
-                        <div style="text-align: left; font-size: 0.7rem; background: rgba(0,0,0,0.5); padding: 5px; border-radius: 4px; margin-top: 5px;">
-                            <strong>LOGIC:</strong> Divide range (1-500M) by <code>n</code> threads.<br>
-                            <strong>TASK:</strong> Each thread checks a "slice" of the total range.<br>
-                            <strong>JOIN:</strong> Main thread aggregates all prime counts.
+                        <div style="text-align: left; font-size: 0.7rem; background: rgba(0,0,0,0.5); padding: 8px; border-radius: 4px; margin-top: 5px; line-height: 1.2;">
+                            <strong>LOGIC:</strong> Divide total range by <code>n</code> threads.<br>
+                            <strong>ALGORITHM:</strong> Apply "Slicing" logic to distribute range.<br>
+                            <strong>RESULT:</strong> Main thread aggregates counts using <code>pthread_join</code>.
                         </div>
                     `;
                 } 
@@ -63,11 +62,11 @@ if (fileInput) {
             }, 2000);
         };
 
-        reader.readAsText(file); // Reads file to identify the question
+        reader.readAsText(file);
     });
 }
 
-// --- BACKGROUND ANIMATION ---
+// --- BACKGROUND ANIMATION (PRESERVED) ---
 class Particle {
     constructor(x, y, dirX, dirY, size) {
         this.x = x;
